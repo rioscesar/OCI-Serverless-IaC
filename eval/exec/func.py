@@ -9,7 +9,7 @@ def handler(ctx, data=None, loop=None):
     code = body.pop("code")
     name = body.pop("name")
     exec(code)
-    return name(**body)
+    return func(**body)
 
 
 if __name__ == "__main__":
