@@ -3,7 +3,7 @@ import json
 
 
 def handler(ctx, data=None, loop=None):
-    body = json.loads(data) if len(data) > 0 else {"code": ""}
+    body = json.loads(data) if "code" in data else {"code": ""}
     return eval(body["code"])
 
 
