@@ -4,7 +4,7 @@ import json
 
 def handler(ctx, data=None, loop=None):
     body = json.loads(data) if "code" in data else {"code": ""}
-    return eval(body["code"])
+    return eval(str(body["code"]))
 
 
 if __name__ == "__main__":
