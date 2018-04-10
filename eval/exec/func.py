@@ -9,9 +9,13 @@ def handler(ctx, data=None, loop=None):
     exec(body.pop("code"))
     name = body.pop("name")
 
+    print(body)
+    
     possibles = globals().copy()
     possibles.update(locals())
     method = possibles.get(name)
+
+    print(method)
 
     return method(**body)
 
