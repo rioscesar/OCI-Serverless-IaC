@@ -6,10 +6,14 @@ def handler(ctx, data=None, loop=None):
     # serialize the string and then pass it into the json object
     # should probably raise an error if name or code is not present
     body = json.loads(data) if "code" in data and "name" in data else {"code": ""}
-    code = body.pop("code")
-    name = body.pop("name")
-    exec(code)
-    return func(**body)
+    exec(d.pop("code"))
+    name = d.pop("name")
+
+    possibles = globals().copy()
+    possibles.update(locals())
+    method = possibles.get(name)
+
+    return method(**d)
 
 
 if __name__ == "__main__":
