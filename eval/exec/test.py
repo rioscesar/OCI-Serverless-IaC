@@ -1,4 +1,4 @@
-code = """def func(a=1, b=2, c=3):\n print(a+b+c)"""
+code = """def func(a=1, b=2, c=3):\n return a+b+c"""
 
 d = {
     "code": code,
@@ -8,11 +8,14 @@ d = {
     "c": 3
 }
 
-exec(d.pop("code"))
-name = d.pop("name")
+def func(d): 
+    exec(d.pop("code"))
+    name = d.pop("name")
 
-possibles = globals().copy()
-possibles.update(locals())
-method = possibles.get(name)
+    possibles = globals().copy()
+    possibles.update(locals())
+    method = possibles.get(name)
 
-method(**d)
+    return method(**d)
+    
+print(func(d))
