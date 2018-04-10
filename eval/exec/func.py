@@ -1,11 +1,12 @@
 import fdk
 import json
 import logging
+import logging.handlers
 import base64
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
-handler = logging.handlers.SysLogHandler(address = '/home/ubuntu/log')
+handler = logging.handlers.SysLogHandler(address = '/dev/log')
 log.addHandler(handler)
 
 def handler(ctx, data=None, loop=None):
