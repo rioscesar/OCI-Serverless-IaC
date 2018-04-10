@@ -12,13 +12,13 @@ def handler(ctx, data=None, loop=None):
     exec(body.pop("code"))
     name = body.pop("name")
 
-    log.debug(body)
+    log.critical(body)
     
     possibles = globals().copy()
     possibles.update(locals())
     method = possibles.get(name)
 
-    log.debug(method)
+    log.critical(method)
 
     return method(**body)
 
