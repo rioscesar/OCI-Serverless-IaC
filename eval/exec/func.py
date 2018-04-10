@@ -1,5 +1,8 @@
 import fdk
 import json
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def handler(ctx, data=None, loop=None):
@@ -9,13 +12,13 @@ def handler(ctx, data=None, loop=None):
     exec(body.pop("code"))
     name = body.pop("name")
 
-    print(body)
+    log.debug(body)
     
     possibles = globals().copy()
     possibles.update(locals())
     method = possibles.get(name)
 
-    print(method)
+    log.debug(method)
 
     return method(**body)
 
