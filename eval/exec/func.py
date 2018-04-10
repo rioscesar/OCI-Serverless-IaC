@@ -5,7 +5,7 @@ import base64
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
-handler = logging.handlers.SysLogHandler(address = '/home/ubuntu')
+handler = logging.handlers.SysLogHandler(address = '/home/ubuntu/log')
 log.addHandler(handler)
 
 def handler(ctx, data=None, loop=None):
