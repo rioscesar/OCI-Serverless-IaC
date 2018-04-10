@@ -18,4 +18,4 @@ def func(d):
 
     return method(**d)
     
-print(func(d))
+# print(func(d))
