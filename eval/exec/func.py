@@ -4,7 +4,7 @@ import logging
 import logging.handlers
 import base64
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("MYLogger")
 log.setLevel(logging.DEBUG)
 handler = logging.handlers.SysLogHandler(address = '/dev/log')
 log.addHandler(handler)
