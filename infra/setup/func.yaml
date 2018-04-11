@@ -1,0 +1,5 @@
+name: setup
+version: 0.0.1
+runtime: python3.6
+entrypoint: python3 func.py
+format: json
