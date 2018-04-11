@@ -9,6 +9,7 @@ def handler(ctx, data=None, loop=None):
     user = body['user']
     cidr_block = body['cidr_block']
     name = body.get('name', 'vcn_name')
+    compartment_id = body['compartment_id']
     
     # use the user to find configuration on the database to be abe to connect to OCI
     # config = {db stuff with keys and values}

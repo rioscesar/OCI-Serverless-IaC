@@ -14,7 +14,7 @@ def handler(ctx, data=None, loop=None):
         availability_domain = self.subnet.availability_domain,
         compartment_id = self.config['compartment'],
         display_name = self.name,
-        # todo: remove referene to operating_system
+        # todo: remove reference to operating_system
         image_id = self.operating_systems[self.config['image_os']],
         shape = self.config['shape'],
         subnet_id = self.subnet.id,
@@ -54,6 +54,7 @@ def create_metadata(self):
         crypto_serialization.PublicFormat.OpenSSH
     )
     with open('./'+self.keyfile, 'w+') as f:
+        # todo: this gets returned for the user to download
         os.chmod('./'+self.keyfile, 0o600)
         f.write(self.private_key.decode())
         print('Created private ssh key - "./'+self.keyfile+'"')
