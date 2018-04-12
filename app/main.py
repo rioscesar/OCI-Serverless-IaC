@@ -61,18 +61,6 @@ def gateway():
     # hardcoding the endpoint is not nice
     requests.post(url+'/infra/gateway', data=json.dumps(data), headers=headers)
 
-@app.route('/gateway')
-def gateway():
-    # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
-    data = {
-        user_id: request.args.get('user_id'),
-        vcn: request.args.get('vcn_data_might_be_more_things')
-    }
-
-    # todo : pass this into the fn server
-    # hardcoding the endpoint is not nice
-    requests.post(url+'/infra/gateway', data=json.dumps(data), headers=headers)
-
 @app.route('/images')
 def images():
     # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
