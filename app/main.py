@@ -9,6 +9,8 @@ url = 'localhost:8080/r'
 def hello():
     return 'Hello World!'
 
+# todo: add quotes to everything
+
 @app.route('/setup')
 def setup():
     data = {
