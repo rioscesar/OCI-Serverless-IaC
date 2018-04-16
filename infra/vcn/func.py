@@ -36,6 +36,5 @@ def handler(ctx, data=None, loop=None):
     return VCNSchema().dump(get_vcn_response.data).data
 
 
-
 if __name__ == '__main__':
     fdk.handle(handler)
