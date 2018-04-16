@@ -14,7 +14,7 @@ def handler(ctx, data=None, loop=None):
     config = body['environment']
 
     virtual_network = oci.core.VirtualNetworkClient(config)
-    
+
     vcn_name = name
     result = virtual_network.create_vcn(
         oci.core.models.CreateVcnDetails(
@@ -32,7 +32,9 @@ def handler(ctx, data=None, loop=None):
 
     # todo: add logging to another ip
     print('Created VCN: {}'.format(get_vcn_response.data.id))
-    return VCNSchema().dump(get_vcn_response.data)
+
+    return VCNSchema().dump(get_vcn_response.data).data
+
 
 
 if __name__ == '__main__':

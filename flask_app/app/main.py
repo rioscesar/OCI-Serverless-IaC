@@ -50,8 +50,9 @@ def vcn():
         'name': request_data.get('name'),
         'environment': get_environment(request_data)
     }
-
-    requests.post(url+'/infra/vcn', data=json.dumps(data), headers=headers)
+    # todo: change name to infra
+    r = requests.post(url+'/goapp/vcn', data=json.dumps(data), headers=headers)
+    return r.json()
 
 
 @app.route('/subnet', methods=['POST'])
