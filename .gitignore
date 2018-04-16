@@ -10,3 +10,4 @@ env.sh
 venv/
 data/
 .idea/
+__pycache__
