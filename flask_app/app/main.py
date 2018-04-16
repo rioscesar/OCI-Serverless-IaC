@@ -97,14 +97,12 @@ def images():
 
     # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
-        'user_id': request_data.get('user_id'),
-        'os': request_data.get('operating_system'),
-        'os_version': request_data.get('operating_system_version'),
-        'shape': request_data.get('shape'),
-        'environment': get_environment(request_data)
+        'environment': get_environment(request_data),
+        'compartment_id': request_data.get('compartment_id')
     }
 
-    requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
+    r = requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
+    return jsonify(json.loads(r.text))
 
 
 @app.route('/compute', methods=['POST'])

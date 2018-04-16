@@ -1,14 +1,17 @@
 import fdk
 import json
+import oci
 
-# this function is used to list all images and get their id
 
 def handler(ctx, data=None, loop=None):
-    body = json.loads(data) if len(data) > 0 else {'name': 'World'}
+    body = json.loads(data)
+    compartment_id = body['compartment_id']
 
-    # todo: remove all references to self and use body
+    config = body['environment']
+    compute_client = oci.core.ComputeClient(config)
+
     operating_systems = {}
-    images = self.client.list_images(self.config['compartment']).data
+    images = compute_client.list_images(compartment_id).data
     for image in images:
         os = image.operating_system + " " + image.operating_system_version
         if os not in operating_systems:

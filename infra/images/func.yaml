@@ -1,5 +1,5 @@
-name: image
-version: 0.0.1
+name: images
+version: 0.0.3
 runtime: python3.6
 entrypoint: python3 func.py
 format: json
