@@ -27,8 +27,9 @@ def setup():
     user_ocid = data.get('user_ocid')
     tenancy_ocid = data.get('tenancy_ocid')
     env_name = data.get('env_name')
+    region = data.get('region')
 
-    env = Environment(env_name, private_key, user_ocid, tenancy_ocid, fingerprint)
+    env = Environment(env_name, private_key, user_ocid, tenancy_ocid, fingerprint, region)
     user = User(user_id, env)
 
     # todo: more error handling for sql inserts
@@ -115,7 +116,8 @@ def compute():
         'vcn': request_data.get('shape')
     }
 
-    requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
+    r = requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
+    return r.json()
 
 
 def get_environment(request_data):
@@ -129,7 +131,7 @@ def get_environment(request_data):
         Environment.env_name == env_name
     ).first()
 
-    return EnvironmentSchema().dump(environment).data
+    return EnvironmentSchema(exclude=('id',)).dump(environment).data
 
 
 if __name__ == '__main__':

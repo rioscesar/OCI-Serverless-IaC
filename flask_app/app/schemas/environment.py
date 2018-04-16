@@ -8,8 +8,9 @@ class EnvironmentSchema(Schema):
 
     id = fields.Integer()
 
-    private_key = fields.String()
-    user_ocid = fields.String()
+    key_content = fields.String(attribute='private_key')
+    user = fields.String(attribute='user_ocid')
     fingerprint = fields.String()
-    tenancy_ocid = fields.String()
+    tenancy = fields.String(attribute='tenancy_ocid')
+    region = fields.String()
 

@@ -1,7 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError
 
 from flask_app.app import db
-from flask_app.app.models import User, Environment
+from flask_app.app.models import *
 
 
 def recreate_db():

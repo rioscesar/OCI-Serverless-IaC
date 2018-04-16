@@ -1,5 +1,5 @@
 ### FN URL ###
-FN_URL = 'localhost:8080/r'
+FN_URL = '129.213.97.217:8080/r'
 
 ### FN HEADERS ###
 FN_HEADERS = {'content-type': 'application/json'}

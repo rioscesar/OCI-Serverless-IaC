@@ -2,17 +2,17 @@ import fdk
 import json
 import oci
 
-# todo: only work with dicts : serialize objects to dicts
+from flask_app.app.schemas.vcn import VCNSchema
+
 
 def handler(ctx, data=None, loop=None):
-    body = json.loads(data) if len(data) > 0 else {} 
-    user = body['user']
+    body = json.loads(data)
     cidr_block = body['cidr_block']
     name = body.get('name', 'vcn_name')
     compartment_id = body['compartment_id']
-    
-    # use the user to find configuration on the database to be abe to connect to OCI
-    # config = {db stuff with keys and values}
+
+    config = body['environment']
+
     virtual_network = oci.core.VirtualNetworkClient(config)
     
     vcn_name = name
@@ -30,9 +30,9 @@ def handler(ctx, data=None, loop=None):
         'AVAILABLE'
     )
 
+    # todo: add logging to another ip
     print('Created VCN: {}'.format(get_vcn_response.data.id))
-    # probably have to use marshmallow to serialize classes and deserialize
-    return get_vcn_response.data
+    return VCNSchema().dump(get_vcn_response.data)
 
 
 if __name__ == '__main__':
