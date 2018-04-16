@@ -1,5 +1,5 @@
 name: vcn
-version: 0.0.23
+version: 0.0.49
 runtime: python3.6
 entrypoint: python3 func.py
 format: json

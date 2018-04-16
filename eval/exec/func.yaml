@@ -1,5 +1,5 @@
-name: python-exec
-version: 0.0.1
+name: function
+version: 0.0.2
 runtime: python3.6
 entrypoint: python3 func.py
 format: json

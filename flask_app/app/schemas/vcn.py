@@ -16,5 +16,5 @@ class VCNSchema(Schema):
     display_name = fields.String()
     dns_label = fields.String()
     lifecycle_state = fields.String()
-    time_created = fields.DateTime()
+    time_created = fields.Integer()
     vcn_domain_name = fields.String()

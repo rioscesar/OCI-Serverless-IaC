@@ -8,6 +8,7 @@ log.setLevel(logging.DEBUG)
 handler = logging.handlers.SysLogHandler(address = '/dev/log')
 log.addHandler(handler)
 
+
 def handler(ctx, data=None, loop=None):
     # serialize the string and then pass it into the json object
     # should probably raise an error if name or code is not present
