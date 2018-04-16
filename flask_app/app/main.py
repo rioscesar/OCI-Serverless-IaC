@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 
 import requests
 import json
@@ -6,6 +6,8 @@ import json
 from flask_app.app import app, db
 from flask_app.app.models import User, Environment
 from flask_app.app.schemas.environment import EnvironmentSchema
+from flask_app.app.schemas.gateway import GatewaySchema
+from flask_app.app.schemas.subnet import SubnetSchema
 from flask_app.app.schemas.vcn import VCNSchema
 
 headers = app.config['FN_HEADERS']
@@ -53,7 +55,7 @@ def vcn():
     }
 
     r = requests.post(url+'/infra/vcn', data=json.dumps(data), headers=headers)
-    return VCNSchema().dump(json.loads(r.text)).data
+    return jsonify(VCNSchema().dump(json.loads(r.text)).data)
 
 
 @app.route('/subnet', methods=['POST'])
@@ -62,25 +64,31 @@ def subnet():
 
     data = {
         'environment': get_environment(request_data),
-        # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
-        'vcn': request_data.get('vcn_data_might_be_more_things'),
-        'ad': request_data.get('availability_domain')
+        'cidr_block': request_data.get('cidr_block'),
+        'compartment_id': request_data.get('compartment_id'),
+        'vcn_id': request_data.get('vcn_id'),
+        'ad': request_data.get('ad'),
+        'name': request_data.get('name')
     }
 
-    requests.post(url+'/infra/subnet', data=json.dumps(data), headers=headers)
+    r = requests.post(url+'/infra/subnet', data=json.dumps(data), headers=headers)
+    return jsonify(SubnetSchema().dump(json.loads(r.text)).data)
 
 
 @app.route('/gateway', methods=['POST'])
 def gateway():
     request_data = request.get_json()
 
-    # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
         'environment': get_environment(request_data),
-        'vcn': request_data.get('vcn_data_might_be_more_things')
+        'compartment_id': request_data.get('compartment_id'),
+        'vcn_id': request_data.get('vcn_id'),
+        'name': request_data.get('name'),
+        'default_route_table_id': request_data.get('default_route_table_id')
     }
 
-    requests.post(url+'/infra/gateway', data=json.dumps(data), headers=headers)
+    r = requests.post(url+'/infra/gateway', data=json.dumps(data), headers=headers)
+    return jsonify(GatewaySchema().dump(json.loads(r.text)).data)
 
 
 @app.route('/images', methods=['POST'])
