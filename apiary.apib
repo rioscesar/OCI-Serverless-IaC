@@ -1,0 +1,81 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# Fn API
+
+FnProject Automation and Orchestration API.
+
+## Environment Config [/setup]
+
+### Setup [POST]
+
+Initial setup required to connect to the Oracle Cloud Infrastructure. 
+
++ Request (application/json)
+
+        {
+            "user_id": 1,
+            "fingerprint": "35:35:d0:9a:37:85:93:xxx:xxx",
+            "private_key": "-----BEGIN RSA PRIVATE KEY-----\n-----END RSA PRIVATE KEY-----",
+            "user_ocid": "ocid1.user.oc1..aaaaaaaauokjfku2qd2ua7i6qnzgse4hcqjuiaxxxx",
+            "tenancy_ocid": "ocid1.tenancy.oc1..aaaaaaaalisrma3ghqwy5emeqkwb5tmrluei5aaekc3hsxxxx"
+        }
+
++ Response 200 (application/json)
+
+## VCN Create [/vcn]
+
+### VCN [POST]
+
+Create a Virtual Cloud Network.
+
++ Request (application/json)
+
+        {
+            "user_id": 1,
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaacxmygx657ifiubmaquw7zj4xxxx",
+            "cidr_block": "10.0.0.0/16",
+            "name": "VCN Name"
+        }
+
++ Response 200 (application/json)
+
+        {"user": {"active_flag": 1, "fname": "Personal", "phone": "7474747474", "dob": "2017-07-13", "gender": 1, "user_type": 2, "email": "super@unique.com", "lname": "account", "reg_date": null, "full_name": "Personal account", "address": "cali", "time_stamp": "2017-08-01T11:43:28+00:00", "id": 30}, "registration": true}
+
+
+## Subnet Create [/subnet]
+
+### Subnet [POST]
+
+Create a Subnet given the VCN.
+
++ Request (application/json)
+
+        {
+            "user_id": 1,
+            "ad": "IYlc:US-ASHBURN-AD-1",
+            "vcn": {"key": "value", "key": "value"}
+        }
+
++ Response 200 (application/json)
+
+        {"user": {"active_flag": 1, "fname": "Personal", "phone": "7474747474", "dob": "2017-07-13", "gender": 1, "user_type": 2, "email": "super@unique.com", "lname": "account", "reg_date": null, "full_name": "Personal account", "address": "cali", "time_stamp": "2017-08-01T11:43:28+00:00", "id": 30}, "registration": true}
+
+
+## Gateway Create [/gateway]
+
+### Gateway [POST]
+
+Create a Gateway given the VCN.
+
++ Request (application/json)
+
+        {
+            "user_id": 1,
+            "ad": "IYlc:US-ASHBURN-AD-1",
+            "vcn": {"key": "value", "key": "value"}
+        }
+
++ Response 200 (application/json)
+
+        {"user": {"active_flag": 1, "fname": "Personal", "phone": "7474747474", "dob": "2017-07-13", "gender": 1, "user_type": 2, "email": "super@unique.com", "lname": "account", "reg_date": null, "full_name": "Personal account", "address": "cali", "time_stamp": "2017-08-01T11:43:28+00:00", "id": 30}, "registration": true}
