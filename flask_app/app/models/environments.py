@@ -9,7 +9,7 @@ class Environment(db.Model):
     __tablename__ = 'environments'
 
     id = db.Column(db.Integer, primary_key=True)
-    env_name = db.Column(db.String)
+    env_name = db.Column(db.String, unique=True)
 
     private_key = db.Column(db.String)
     user_ocid = db.Column(db.String)

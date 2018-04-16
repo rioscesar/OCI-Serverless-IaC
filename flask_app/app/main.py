@@ -18,12 +18,15 @@ def hello():
 
 @app.route('/setup', methods=['POST'])
 def setup():
-    user_id = request.args.get('user_id')
-    fingerprint = request.args.get('fingerprint')
-    private_key = request.args.get('private_key')
-    user_ocid = request.args.get('user_ocid')
-    tenancy_ocid = request.args.get('tenancy_ocid')
-    env_name = request.args.get('env_name')
+
+    data = request.get_json()
+    
+    user_id = data.get('user_id')
+    fingerprint = data.get('fingerprint')
+    private_key = data.get('private_key')
+    user_ocid = data.get('user_ocid')
+    tenancy_ocid = data.get('tenancy_ocid')
+    env_name = data.get('env_name')
 
     env = Environment(env_name, private_key, user_ocid, tenancy_ocid, fingerprint)
     user = User(user_id, env)
@@ -36,81 +39,91 @@ def setup():
     return json.dumps({'success': True, 'environment': env_name}), 200, headers
 
 
-@app.route('/vcn')
+@app.route('/vcn', methods=['POST'])
 def vcn():
+    request_data = request.get_json()
+
     data = {
-        'compartment_id': request.args.get('compartment_id'),
-        'cidr_block': request.args.get('cidr_block'),
-        'name': request.args.get('name'),
-        'environment': get_environment(request)
+        'compartment_id': request_data.get('compartment_id'),
+        'cidr_block': request_data.get('cidr_block'),
+        'name': request_data.get('name'),
+        'environment': get_environment(request_data)
     }
 
     requests.post(url+'/infra/vcn', data=json.dumps(data), headers=headers)
 
 
-@app.route('/subnet')
+@app.route('/subnet', methods=['POST'])
 def subnet():
+    request_data = request.get_json()
+
     data = {
-        'environment': get_environment(request),
+        'environment': get_environment(request_data),
         # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
-        'vcn': request.args.get('vcn_data_might_be_more_things'),
-        'ad': request.args.get('availability_domain')
+        'vcn': request_data.get('vcn_data_might_be_more_things'),
+        'ad': request_data.get('availability_domain')
     }
 
     requests.post(url+'/infra/subnet', data=json.dumps(data), headers=headers)
 
 
-@app.route('/gateway')
+@app.route('/gateway', methods=['POST'])
 def gateway():
+    request_data = request.get_json()
+
     # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
-        'environment': get_environment(request),
-        'vcn': request.args.get('vcn_data_might_be_more_things')
+        'environment': get_environment(request_data),
+        'vcn': request_data.get('vcn_data_might_be_more_things')
     }
 
     requests.post(url+'/infra/gateway', data=json.dumps(data), headers=headers)
 
 
-@app.route('/images')
+@app.route('/images', methods=['POST'])
 def images():
+    request_data = request.get_json()
+
     # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
-        'user_id': request.args.get('user_id'),
-        'os': request.args.get('operating_system'),
-        'os_version': request.args.get('operating_system_version'),
-        'shape': request.args.get('shape'),
-        'environment': get_environment(request)
+        'user_id': request_data.get('user_id'),
+        'os': request_data.get('operating_system'),
+        'os_version': request_data.get('operating_system_version'),
+        'shape': request_data.get('shape'),
+        'environment': get_environment(request_data)
     }
 
     requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
 
 
-@app.route('/compute')
+@app.route('/compute', methods=['POST'])
 def compute():
+    request_data = request.get_json()
+
     # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
-        'environment': get_environment(request),
-        'user_id': request.args.get('user_id'),
-        'ad': request.args.get('operating_system'),
-        'compartment_id': request.args.get('operating_system_version'),
-        'name': request.args.get('shape'),
-        'image_id': request.args.get('shape'),
-        'shape': request.args.get('shape'),
+        'environment': get_environment(request_data),
+        'user_id': request_data.get('user_id'),
+        'ad': request_data.get('operating_system'),
+        'compartment_id': request_data.get('operating_system_version'),
+        'name': request_data.get('shape'),
+        'image_id': request_data.get('shape'),
+        'shape': request_data.get('shape'),
         # could get id and ad from subnet info
-        'subnet_id': request.args.get('shape'),
+        'subnet_id': request_data.get('shape'),
         # todo: this is the vcn object. Find out what values are needed
-        'vcn': request.args.get('shape')
+        'vcn': request_data.get('shape')
     }
 
     requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
 
 
-def get_environment(request):
-    user_id = request.args.get('user_id')
-    env_name = request.args.get('env_name')
+def get_environment(request_data):
+    user_id = request_data.get('user_id')
+    env_name = request_data.get('env_name')
 
     environment = Environment.query.join(
-        User
+        User.environments
     ).filter(
         User.user_id == user_id,
         Environment.env_name == env_name

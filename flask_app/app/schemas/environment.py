@@ -13,4 +13,3 @@ class EnvironmentSchema(Schema):
     fingerprint = fields.String()
     tenancy_ocid = fields.String()
 
-    users = fields.Nested('UserSchema', many=True)
