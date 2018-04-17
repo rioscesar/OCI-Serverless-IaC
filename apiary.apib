@@ -15,13 +15,20 @@ Initial setup required to connect to the Oracle Cloud Infrastructure.
 
         {
             "user_id": 1,
-            "fingerprint": "35:35:d0:9a:37:85:93:xxx:xxx",
+            "env_name": "des",
+            "fingerprint": "fb:93:b0:6c:ac:f2:42:c7:97:00:xxx",
             "private_key": "-----BEGIN RSA PRIVATE KEY-----\n-----END RSA PRIVATE KEY-----",
-            "user_ocid": "ocid1.user.oc1..aaaaaaaauokjfku2qd2ua7i6qnzgse4hcqjuiaxxxx",
-            "tenancy_ocid": "ocid1.tenancy.oc1..aaaaaaaalisrma3ghqwy5emeqkwb5tmrluei5aaekc3hsxxxx"
+            "user_ocid": "ocid1.user.oc1..xxxx",
+            "tenancy_ocid": "ocid1.tenancy.oc1.xxxxx",
+            "region": "us-ashburn-1"
         }
 
 + Response 200 (application/json)
+
+        {
+            "environment": "des",
+            "success": true
+        }
 
 ## VCN Create [/vcn]
 
