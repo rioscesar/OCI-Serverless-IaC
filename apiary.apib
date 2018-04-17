@@ -5,9 +5,11 @@ HOST: http://polls.apiblueprint.org/
 
 FnProject Automation and Orchestration API.
 
-## Environment Config [/setup]
+# Group Set the Environment
 
-### Setup [POST]
+## Setup [/setup]
+
+### Configure [POST]
 
 Initial setup required to connect to the Oracle Cloud Infrastructure. API keys are c/p. Keep newline (\n) formatting.
 
@@ -29,10 +31,12 @@ Initial setup required to connect to the Oracle Cloud Infrastructure. API keys a
             "environment": "des",
             "success": true
         }
+        
+## Group Network
 
-## VCN Create [/vcn]
+## VCN [/vcn]
 
-### VCN [POST]
+### Create VCN [POST]
 
 Create a Virtual Cloud Network.
 
@@ -62,9 +66,9 @@ Create a Virtual Cloud Network.
             "vcn_domain_name": null
         }
 
-## Subnet Create [/subnet]
+## Subnet [/subnet]
 
-### Subnet [POST]
+### Create Subnet [POST]
 
 Create a Subnet given the VCN.
 
@@ -100,9 +104,9 @@ Create a Subnet given the VCN.
             "virtual_router_mac": "00:00:17:87:A7:C4"
         }
 
-## Gateway Create [/gateway]
+## Gateway [/gateway]
 
-### Gateway [POST]
+### Create Gateway [POST]
 
 Create a Gateway given the VCN.
 
@@ -120,4 +124,66 @@ Create a Gateway given the VCN.
 
 + Response 200 (application/json)
 
-        {"user": {"active_flag": 1, "fname": "Personal", "phone": "7474747474", "dob": "2017-07-13", "gender": 1, "user_type": 2, "email": "super@unique.com", "lname": "account", "reg_date": null, "full_name": "Personal account", "address": "cali", "time_stamp": "2017-08-01T11:43:28+00:00", "id": 30}, "registration": true}
+        {
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
+            "display_name": "GatewayFaaS",
+            "id": "ocid1.internetgateway.oc1.iad.aaaaaaaatspscfcu252fd3miulstnryuvb4gnpm6lnjkdmw65hklpxbkkyoa",
+            "is_enabled": "True",
+            "lifecycle_state": "AVAILABLE",
+            "time_created": "1523920797",
+            "vcn_id": "ocid1.vcn.oc1.iad.aaaaaaaaiewj62zsi4bszfp623ktn7rswarojrictzo2sdk57rjwoxbd6lyq"
+        }
+        
+## Group Compute 
+
+## Image [/images]
+
+### Get all Images [POST]
+
+Gets all images available in a compartment.
+
++ Request (application/json)
+
+        {
+            "user_id": 1,
+            "env_name": "des",
+            "compartment_id": "ocid1.compartment.oc1.xxxx"
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "Canonical Ubuntu 14.04": "ocid1.image.oc1.iad.aaaaaaaazphfcdl2cls3jp2n3tu6ifxzwgwcufb3fh24komedjvtyq74sckq",
+            "Canonical Ubuntu 16.04": "ocid1.image.oc1.iad.aaaaaaaa4mgxc6fgpor35gmf57liqriu7kekhcif52h4esgmwrnuk6vyucsq",
+            "CentOS 6.9": "ocid1.image.oc1.iad.aaaaaaaatg3iqwyr5jusvsa7u5zjkjydqzjfgbx4mgx5blxaarmv2rikwn2a",
+            "CentOS 7": "ocid1.image.oc1.iad.aaaaaaaau2yljlt33cvkweyknohgj6l5abm2thznvcqdvr5epgnce3jlrcsq",
+            "Oracle Linux 6.9": "ocid1.image.oc1.iad.aaaaaaaasjserhtqohvkr7dmrqtxwrudq72wp72vowna65cbfqvdjeterq6a",
+            "Oracle Linux 7.4": "ocid1.image.oc1.iad.aaaaaaaaiuk7jmajtgnvnv7ihprkymreom2lqyoppzr6h2w3h56cwos5cnvq",
+            "Windows Server 2008 R2": "ocid1.image.oc1.iad.aaaaaaaawticvxqe6icrynkhw2wsmjm2naxwxdp3oykyqmlplxfb4cjx6jyq",
+            "Windows Server 2012 R2 Standard": "ocid1.image.oc1.iad.aaaaaaaagjdk5pphn2hlgt5vlzww35mhpsfsf6cjdwql2xu5kgohajtbhlga",
+            "Windows Server 2016 Datacenter": "ocid1.image.oc1.iad.aaaaaaaatlfpzhsy6vqcpt7c2sm3yn25tpfklcljtypvszzw4qwoptjypa7q",
+            "Windows Server 2016 Standard": "ocid1.image.oc1.iad.aaaaaaaaet2lacxv5s7pjar4j2v2j5sg2bjbndvh45vufckpkeyc3ew2ggvq"
+        }
+        
+## Compute [/compute]
+
+### Create a Compute Instance [POST]
+
+Creates a compute instance in a compartment.
+
++ Request (application/json)
+
+        {
+            "ad": "yKpP:US-ASHBURN-AD-1",
+            "compartment_id": "ocid1.compartment.oc1.xxx",
+            "name": "FaaSCompute",
+            "image_id": "ocid1.image.oc1.iad.xxx",
+            "shape": "VM.Standard2.1",
+            "subnet_id": "ocid1.subnet.oc1.iad.xxx",
+            "user_id": 1,
+            "env_name": "des"
+        }
+        
++ Response 200 (application/json)
+
+        {}
