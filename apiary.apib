@@ -9,7 +9,7 @@ FnProject Automation and Orchestration API.
 
 ### Setup [POST]
 
-Initial setup required to connect to the Oracle Cloud Infrastructure. 
+Initial setup required to connect to the Oracle Cloud Infrastructure. API keys are c/p. Keep newline (\n) formatting.
 
 + Request (application/json)
 
@@ -40,15 +40,27 @@ Create a Virtual Cloud Network.
 
         {
             "user_id": 1,
-            "compartment_id": "ocid1.compartment.oc1..aaaaaaaacxmygx657ifiubmaquw7zj4xxxx",
+            "env_name": "des",
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
             "cidr_block": "10.0.0.0/16",
-            "name": "VCN Name"
+            "name": "VCNFaaS"
         }
 
 + Response 200 (application/json)
 
-        {"user": {"active_flag": 1, "fname": "Personal", "phone": "7474747474", "dob": "2017-07-13", "gender": 1, "user_type": 2, "email": "super@unique.com", "lname": "account", "reg_date": null, "full_name": "Personal account", "address": "cali", "time_stamp": "2017-08-01T11:43:28+00:00", "id": 30}, "registration": true}
-
+        {
+            "cidr_block": "10.0.0.0/16",
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
+            "default_dhcp_options_id": "ocid1.dhcpoptions.oc1.iad.aaaaaaaaq4jb3k7doqg754dht2ohewnpw7gj2hkejv6zukxpkpvgexbv4a6q",
+            "default_route_table_id": "ocid1.routetable.oc1.iad.aaaaaaaa5bseuqlg2lsknukc32zcbzbvnh574prh7bobpyuyswjgernxcvra",
+            "default_security_list_id": "ocid1.securitylist.oc1.iad.aaaaaaaavq67huovzipzhkslc54u7pis54av3zcf3da2uy5gewxvfn3upbna",
+            "display_name": "VCNFaaS",
+            "dns_label": null,
+            "id": "ocid1.vcn.oc1.iad.aaaaaaaaiewj62zsi4bszfp623ktn7rswarojrictzo2sdk57rjwoxbd6lyq",
+            "lifecycle_state": "AVAILABLE",
+            "time_created": 1523918858,
+            "vcn_domain_name": null
+        }
 
 ## Subnet Create [/subnet]
 
