@@ -185,5 +185,25 @@ Creates a compute instance in a compartment.
         }
         
 + Response 200 (application/json)
-
+        
         {}
+
+## Group Execute Code
+
+## Execute Code [/exec]
+
+### Run Python Code in Docker Container.
+
++ Request (application/json)
+
+        {
+            "code": "def des(a,b,c):\n  return a+b+c",
+            "name": "des",
+            "a": 1,
+            "b":2,
+            "c":1000
+        }
+        
++ Response 200
+
+        1003
