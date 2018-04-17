@@ -95,7 +95,6 @@ def gateway():
 def images():
     request_data = request.get_json()
 
-    # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
         'environment': get_environment(request_data),
         'compartment_id': request_data.get('compartment_id')
@@ -109,23 +108,18 @@ def images():
 def compute():
     request_data = request.get_json()
 
-    # todo: clean this up a bit to only pass what is necessary for the creation of the subnet
     data = {
         'environment': get_environment(request_data),
-        'user_id': request_data.get('user_id'),
-        'ad': request_data.get('operating_system'),
-        'compartment_id': request_data.get('operating_system_version'),
-        'name': request_data.get('shape'),
-        'image_id': request_data.get('shape'),
+        'ad': request_data.get('ad'),
+        'compartment_id': request_data.get('compartment_id'),
+        'name': request_data.get('name'),
+        'image_id': request_data.get('image_id'),
         'shape': request_data.get('shape'),
-        # could get id and ad from subnet info
-        'subnet_id': request_data.get('shape'),
-        # todo: this is the vcn object. Find out what values are needed
-        'vcn': request_data.get('shape')
+        'subnet_id': request_data.get('subnet_id')
     }
 
-    r = requests.post(url+'/infra/images', data=json.dumps(data), headers=headers)
-    return r.json()
+    r = requests.post(url+'/infra/compute', data=json.dumps(data), headers=headers)
+    return jsonify(json.loads(r.text))
 
 
 def get_environment(request_data):

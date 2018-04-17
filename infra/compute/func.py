@@ -1,68 +1,83 @@
 import fdk
 import json
+import oci
+from cryptography.hazmat.primitives import serialization as crypto_serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.backends import default_backend as crypto_default_backend
 
 
 def handler(ctx, data=None, loop=None):
-    body = json.loads(data) if len(data) > 0 else {'name': 'World'}
+    body = json.loads(data)
 
-    # todo: need to pass in the vcn to this thing as well as an image_id.
-    # todo: we are also creating private keys for the user using the metadata option
-    # pass in or create one for them
-    
-    print('Creating compute instance ...')
-    compute_details = LaunchInstanceDetails(
-        availability_domain = self.subnet.availability_domain,
-        compartment_id = self.config['compartment'],
-        display_name = self.name,
-        # todo: remove reference to operating_system
-        image_id = self.operating_systems[self.config['image_os']],
-        shape = self.config['shape'],
-        subnet_id = self.subnet.id,
-        metadata = self.create_metadata()
+    ad = body['ad']
+    compartment_id = body['compartment_id']
+    name = body.get('name', 'instance')
+    image_id = body['image_id']
+    # todo: find a way to get the shape to the frontend
+    # list_shapes(compartment_id)
+    shape = body['shape']
+    subnet_id = body['subnet_id']
+
+    config = body['environment']
+
+    metadata, private_key = create_metadata()
+
+    compute_details = oci.core.models.LaunchInstanceDetails(
+        availability_domain=ad,
+        compartment_id=compartment_id,
+        display_name=name,
+        source_details=oci.core.models.InstanceSourceViaImageDetails(image_id=image_id),
+        shape=shape,
+        metadata=metadata,
+        create_vnic_details=oci.core.models.CreateVnicDetails(
+            subnet_id=subnet_id
+        )
     )
-    while True:
-        try:
-            self.compute_instance = self.client.launch_instance(compute_details).data
-            return get_vnic(vcn)
-        except Exception as e:
-            continue
 
-# todo: make this play nice with compute creation  
-def get_vnic(self, vcn):
+    compute_client = oci.core.compute_client.ComputeClient(config)
+    vcn = oci.core.VirtualNetworkClient(config)
+
+    compute_instance = compute_client.launch_instance(compute_details).data
+
+    oci.wait_until(
+        compute_client,
+        compute_client.get_instance(compute_instance.data.id),
+        'lifecycle_state',
+        'RUNNING'
+    )
+    return compute_instance
+    # return get_vnic(vcn, compute_client, compartment_id, compute_instance.id), private_key
+
+
+def get_vnic(vcn, client, compartment_id, compute_id):
     while True:
-        vnic_attachments = self.client.list_vnic_attachments(self.config['compartment']).data
+        vnic_attachments = client.list_vnic_attachments(compartment_id).data
         for attachment in vnic_attachments:
-            if self.compute_instance.id == attachment.instance_id:
-                vnic = vcn.client.get_vnic(attachment.vnic_id).data
-                self.public_ip = vnic.public_ip
-                self.private_ip = vnic.private_ip
-                return
+            if compute_id == attachment.instance_id:
+                vnic = vcn.get_vnic(attachment.vnic_id).data
 
-# todo: remove mention of writing to file : write straight to the database            
-def create_metadata(self):
+                return vnic.public_ip, vnic.public_ip
+
+
+def create_metadata():
     key = rsa.generate_private_key(
         backend=crypto_default_backend(),
         public_exponent=65537,
         key_size=2048
     )
-    self.private_key = key.private_bytes(
+    private_key = key.private_bytes(
         crypto_serialization.Encoding.PEM,
         crypto_serialization.PrivateFormat.TraditionalOpenSSL,
         crypto_serialization.NoEncryption())
-    self.public_key = key.public_key().public_bytes(
+    public_key = key.public_key().public_bytes(
         crypto_serialization.Encoding.OpenSSH,
         crypto_serialization.PublicFormat.OpenSSH
     )
-    with open('./'+self.keyfile, 'w+') as f:
-        # todo: this gets returned for the user to download
-        os.chmod('./'+self.keyfile, 0o600)
-        f.write(self.private_key.decode())
-        print('Created private ssh key - "./'+self.keyfile+'"')
-        metadata = {
-            'ssh_authorized_keys': self.public_key.decode()
-        }
-    return metadata
 
+    metadata = {
+        'ssh_authorized_keys': public_key.decode()
+    }
+    return metadata, private_key.decode()
 
 
 if __name__ == '__main__':
