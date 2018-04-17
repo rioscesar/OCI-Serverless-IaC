@@ -46,6 +46,7 @@ def handler(ctx, data=None, loop=None):
     #     'RUNNING'
     # )
     return compute_instance.data
+    # todo: still need to return the ips and private key
     # return get_vnic(vcn, compute_client, compartment_id, compute_instance.id), private_key
 
 

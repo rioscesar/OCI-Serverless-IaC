@@ -11,7 +11,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
     environments = db.relationship('Environment', backref='users', secondary='user_environment')
+    functions = db.relationship('Function', backref='users', secondary='user_function')
 
-    def __init__(self, user_id, environment):
+    def __init__(self, user_id):
         self.user_id = user_id
-        self.environments.append(environment)
+

@@ -5,6 +5,7 @@ import json
 
 from flask_app.app import app, db
 from flask_app.app.models import User, Environment
+from flask_app.app.models.function import Function
 from flask_app.app.schemas.compute import ComputeSchema
 from flask_app.app.schemas.gateway import GatewaySchema
 from flask_app.app.schemas.subnet import SubnetSchema
@@ -34,7 +35,8 @@ def setup():
     region = data.get('region')
 
     env = Environment(env_name, private_key, user_ocid, tenancy_ocid, fingerprint, region)
-    user = User(user_id, env)
+    user = User(user_id)
+    user.environments.append(env)
 
     # todo: more error handling for sql inserts
 
@@ -121,6 +123,28 @@ def compute():
 
     r = requests.post(url+'/infra/compute', data=json.dumps(data), headers=headers)
     return jsonify(ComputeSchema().dump(json.loads(r.text)))
+
+
+@app.route('/fnpython', methods=['POST'])
+def compute():
+    request_data = request.get_json()
+    user_id = request_data.pop('user_id')
+    name = request_data.get('name')
+    code = request_data.get('code')
+
+    fn = Function(name, code)
+    user = User(user_id)
+    user.functions.append(fn)
+    # todo: more error handling for sql inserts
+
+    db.session.add(user)
+    db.session.commit()
+
+    r = requests.post(url+'/function/fnpython', data=json.dumps(request_data), headers=headers)
+    return jsonify(json.loads({'result': r.text}))
+
+
+# todo: need to return all functions available to user or public
 
 
 if __name__ == '__main__':
