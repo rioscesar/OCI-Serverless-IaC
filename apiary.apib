@@ -41,7 +41,7 @@ Create a Virtual Cloud Network.
         {
             "user_id": 1,
             "env_name": "des",
-            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
+            "compartment_id": "ocid1.compartment.oc1.xxx",
             "cidr_block": "10.0.0.0/16",
             "name": "VCNFaaS"
         }
@@ -50,13 +50,13 @@ Create a Virtual Cloud Network.
 
         {
             "cidr_block": "10.0.0.0/16",
-            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
-            "default_dhcp_options_id": "ocid1.dhcpoptions.oc1.iad.aaaaaaaaq4jb3k7doqg754dht2ohewnpw7gj2hkejv6zukxpkpvgexbv4a6q",
-            "default_route_table_id": "ocid1.routetable.oc1.iad.aaaaaaaa5bseuqlg2lsknukc32zcbzbvnh574prh7bobpyuyswjgernxcvra",
-            "default_security_list_id": "ocid1.securitylist.oc1.iad.aaaaaaaavq67huovzipzhkslc54u7pis54av3zcf3da2uy5gewxvfn3upbna",
+            "compartment_id": "ocid1.compartment.oc1.xxx",
+            "default_dhcp_options_id": "ocid1.dhcpoptions.oc1.iad.xxx",
+            "default_route_table_id": "ocid1.routetable.oc1.iad.xxx",
+            "default_security_list_id": "ocid1.securitylist.oc1.iad.xx",
             "display_name": "VCNFaaS",
             "dns_label": null,
-            "id": "ocid1.vcn.oc1.iad.aaaaaaaaiewj62zsi4bszfp623ktn7rswarojrictzo2sdk57rjwoxbd6lyq",
+            "id": "ocid1.vcn.oc1.iad.xxx",
             "lifecycle_state": "AVAILABLE",
             "time_created": 1523918858,
             "vcn_domain_name": null
@@ -72,14 +72,33 @@ Create a Subnet given the VCN.
 
         {
             "user_id": 1,
-            "ad": "IYlc:US-ASHBURN-AD-1",
-            "vcn": {"key": "value", "key": "value"}
+            "env_name": "des",
+            "compartment_id": "ocid1.compartment.oc1.xxx",
+            "cidr_block": "10.0.2.0/24",
+            "name": "SubnetFaaS",
+            "ad":"yKpP:US-ASHBURN-AD-1",
+            "vcn_id": "ocid1.vcn.oc1.xxx"
         }
 
 + Response 200 (application/json)
 
-        {"user": {"active_flag": 1, "fname": "Personal", "phone": "7474747474", "dob": "2017-07-13", "gender": 1, "user_type": 2, "email": "super@unique.com", "lname": "account", "reg_date": null, "full_name": "Personal account", "address": "cali", "time_stamp": "2017-08-01T11:43:28+00:00", "id": 30}, "registration": true}
-
+        {
+            "availability_domain": "yKpP:US-ASHBURN-AD-1",
+            "cidr_block": "10.0.2.0/24",
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
+            "display_name": "SubnetFaaS",
+            "dns_label": null,
+            "id": "ocid1.subnet.oc1.iad.aaaaaaaazav37jc42glcheocencycxv24vel6ybv2ch2dgglcemlbf6wtyla",
+            "lifecycle_state": "PROVISIONING",
+            "prohibit_public_ip_on_vnic": false,
+            "route_table_id": "ocid1.routetable.oc1.iad.aaaaaaaa5bseuqlg2lsknukc32zcbzbvnh574prh7bobpyuyswjgernxcvra",
+            "security_list_ids": "['ocid1.securitylist.oc1.iad.aaaaaaaavq67huovzipzhkslc54u7pis54av3zcf3da2uy5gewxvfn3upbna']",
+            "subnet_domain_name": null,
+            "time_created": 1523919820,
+            "vcn_id": "ocid1.vcn.oc1.iad.aaaaaaaaiewj62zsi4bszfp623ktn7rswarojrictzo2sdk57rjwoxbd6lyq",
+            "virtual_router_ip": "10.0.2.1",
+            "virtual_router_mac": "00:00:17:87:A7:C4"
+        }
 
 ## Gateway Create [/gateway]
 
@@ -91,8 +110,12 @@ Create a Gateway given the VCN.
 
         {
             "user_id": 1,
-            "ad": "IYlc:US-ASHBURN-AD-1",
-            "vcn": {"key": "value", "key": "value"}
+            "env_name": "des",
+            "compartment_id": "ocid1.compartment.oc1..aaaaaaaazx6rv4c3fw4xp27o35e237g5jwi5bdullgryj35qzhxcugypi6da",
+            "cidr_block": "10.0.2.0/24",
+            "name": "GatewayFaaS",
+            "vcn_id": "ocid1.vcn.oc1.iad.aaaaaaaaiewj62zsi4bszfp623ktn7rswarojrictzo2sdk57rjwoxbd6lyq",
+            "default_route_table_id": "ocid1.routetable.oc1.iad.aaaaaaaa5bseuqlg2lsknukc32zcbzbvnh574prh7bobpyuyswjgernxcvra"
         }
 
 + Response 200 (application/json)
