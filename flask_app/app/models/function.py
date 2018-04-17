@@ -13,7 +13,7 @@ class Function(db.Model):
     code = db.Column(db.String)
     private = db.Column(db.Boolean)
 
-    # todo: might need to do a language field 
+    # todo: might need to do a language field
 
     def __init__(self, name, code):
         self.name = name

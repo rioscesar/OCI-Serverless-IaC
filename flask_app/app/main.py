@@ -126,7 +126,7 @@ def compute():
 
 
 @app.route('/fnpython', methods=['POST'])
-def compute():
+def fnpython():
     request_data = request.get_json()
     user_id = request_data.pop('user_id')
     name = request_data.get('name')
