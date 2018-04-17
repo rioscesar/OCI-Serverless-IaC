@@ -1,5 +1,5 @@
-name: compute
-version: 0.0.8
+name: shapes
+version: 0.0.3
 runtime: python3.6
 entrypoint: python3 func.py
 format: json

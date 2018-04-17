@@ -2,6 +2,7 @@ import fdk
 import json
 import oci
 
+# todo: this is supposed to get all shapes available
 
 def handler(ctx, data=None, loop=None):
     body = json.loads(data)
@@ -10,7 +11,6 @@ def handler(ctx, data=None, loop=None):
     config = body['environment']
     compute_client = oci.core.ComputeClient(config)
 
-    # todo: get the correct image id's
     operating_systems = {}
     images = compute_client.list_images(compartment_id).data
     for image in images:

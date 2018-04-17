@@ -5,10 +5,11 @@ import json
 
 from flask_app.app import app, db
 from flask_app.app.models import User, Environment
-from flask_app.app.schemas.environment import EnvironmentSchema
+from flask_app.app.schemas.compute import ComputeSchema
 from flask_app.app.schemas.gateway import GatewaySchema
 from flask_app.app.schemas.subnet import SubnetSchema
 from flask_app.app.schemas.vcn import VCNSchema
+from flask_app.app.utils.env import get_environment
 
 headers = app.config['FN_HEADERS']
 url = app.config['FN_URL']
@@ -119,21 +120,7 @@ def compute():
     }
 
     r = requests.post(url+'/infra/compute', data=json.dumps(data), headers=headers)
-    return jsonify(json.loads(r.text))
-
-
-def get_environment(request_data):
-    user_id = request_data.get('user_id')
-    env_name = request_data.get('env_name')
-
-    environment = Environment.query.join(
-        User.environments
-    ).filter(
-        User.user_id == user_id,
-        Environment.env_name == env_name
-    ).first()
-
-    return EnvironmentSchema(exclude=('id',)).dump(environment).data
+    return jsonify(ComputeSchema().dump(json.loads(r.text)))
 
 
 if __name__ == '__main__':

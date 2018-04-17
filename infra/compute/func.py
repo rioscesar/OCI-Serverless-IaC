@@ -37,15 +37,15 @@ def handler(ctx, data=None, loop=None):
     compute_client = oci.core.compute_client.ComputeClient(config)
     vcn = oci.core.VirtualNetworkClient(config)
 
-    compute_instance = compute_client.launch_instance(compute_details).data
+    compute_instance = compute_client.launch_instance(compute_details)
 
-    oci.wait_until(
-        compute_client,
-        compute_client.get_instance(compute_instance.data.id),
-        'lifecycle_state',
-        'RUNNING'
-    )
-    return compute_instance
+    # oci.wait_until(
+    #     compute_client,
+    #     compute_client.get_instance(compute_instance.data.id),
+    #     'lifecycle_state',
+    #     'RUNNING'
+    # )
+    return compute_instance.data
     # return get_vnic(vcn, compute_client, compartment_id, compute_instance.id), private_key
 
 
@@ -56,7 +56,7 @@ def get_vnic(vcn, client, compartment_id, compute_id):
             if compute_id == attachment.instance_id:
                 vnic = vcn.get_vnic(attachment.vnic_id).data
 
-                return vnic.public_ip, vnic.public_ip
+                return vnic.private_ip, vnic.public_ip
 
 
 def create_metadata():

@@ -1,4 +1,4 @@
-name: function
+name: fnpython
 version: 0.0.2
 runtime: python3.6
 entrypoint: python3 func.py
